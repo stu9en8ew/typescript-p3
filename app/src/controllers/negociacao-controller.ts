@@ -58,6 +58,15 @@ export class NegociacaoController {
 
         this.negociacoesService
         .obterNegociacoesDoDia()
+        .then(negociacaoDeHoje => {
+            return negociacaoDeHoje.filter(negociacaoDeHoje => {
+                return !this.negociacoes
+                .lista()
+                .some(negociacao => negociacao
+                    .ehIgual(negociacaoDeHoje)
+                    );
+            });
+        })
         .then(negociacoesDeHoje => {
             for(let negociacao of negociacoesDeHoje) {
                 this.negociacoes.adiciona(negociacao);
